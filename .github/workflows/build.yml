@@ -1,0 +1,66 @@
+name: Build
+
+on: pull_request
+
+env:
+  JAVA_OPTS: -Xms1g -Xmx3g
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.configureondemand=true -Dorg.gradle.jvmargs=-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
+
+jobs:
+  build:
+    env:
+      JAVA_OPTS: -Xms512m -Xmx1024m
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Restore Gradle cache
+        id: cache
+        uses: actions/cache@v2.1.7
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: misc-step-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            build-gradle-
+
+      - name: Build project
+        run: ./gradlew build check
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          name: 'reports'
+          path: '**/build/reports/**'
+
+      - name: Stop Gradle daemons
+        run: ./gradlew --stop
+
+  update_api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Build
+        uses: gradle/gradle-build-action@v2.1.3
+        with:
+          arguments: apiDump
+
+      - name: Stop Gradle daemons
+        run: ./gradlew --stop
+
+      - name: "Commit new API files"
+        uses: stefanzweifel/git-auto-commit-action@v4.13.1
+        with:
+          commit_message: Update API files
+          file_pattern: /**/api/*.api
