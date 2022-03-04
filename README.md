@@ -5,7 +5,7 @@ A microservice example with Spring Webflux, Arrow.
 Other technologies used:
 - Jetbrains Exposed for the persistence layer.
 - Kotest for testing
-- Ktolinx-serialisation
+- Kotlinx-serialisation
 
 ## Running the project
 

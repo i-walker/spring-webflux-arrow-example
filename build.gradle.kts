@@ -1,6 +1,7 @@
 import com.diffplug.gradle.spotless.SpotlessApply
 import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -102,12 +103,17 @@ allprojects {
     }
 
     withType<Detekt>().configureEach {
+      jvmTarget = "1.8"
       reports {
         html.required.set(true)
         sarif.required.set(true)
         txt.required.set(false)
         xml.required.set(false)
       }
+    }
+
+    withType<DetektCreateBaselineTask>().configureEach {
+      jvmTarget = "1.8"
     }
   }
 
