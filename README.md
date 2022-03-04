@@ -6,9 +6,6 @@ Other technologies used:
 - Jetbrains Exposed for the persistence layer.
 - Kotest for testing
 - Ktolinx-serialisation
-- Kover for test coverage
-- Dokka for documentation
-- Detekt
 
 ## Running the project
 
@@ -28,9 +25,4 @@ curl 0.0.0.0:8080/health
 
 - GET /health: returns version of the connected postgres
 
-
 Highly inspired by https://github.com/nomisRev/ktor-arrow-example
-
-TODO:
-- add apiDump autocommit
-- add spotlessApply autocommit
