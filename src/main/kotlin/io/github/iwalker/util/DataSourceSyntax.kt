@@ -12,8 +12,7 @@ import javax.sql.DataSource
  * credits goes to
  * https://github.com/nomisRev/ktor-arrow-example/blob/main/src/main/kotlin/io/github/nomisrev/utils/DataSourceSyntax.kt
  */
-public fun DataSource.connection(): Resource<Connection> =
-  Resource.fromAutoCloseable { connection }
+public fun DataSource.connection(): Resource<Connection> = Resource.fromAutoCloseable { connection }
 
 public fun DataSource.prepareStatement(
   sql: String,
