@@ -1,4 +1,4 @@
-package org.example
+package io.github.iwalker
 
 public fun main(): Unit {
   /*runBlocking(Dispatchers.Default) {

@@ -1,4 +1,4 @@
-package org.example.config
+package io.github.iwalker.config
 
 public data class Config(val dataSource: DataSource, val http: Http) {
   public data class Http(val host: String, val port: Int)

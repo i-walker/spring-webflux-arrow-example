@@ -17,11 +17,11 @@ plugins {
 }
 
 application {
-  mainClass.set("org.example.MainKt")
+  mainClass.set("io.github.iwalker.MainKt")
 }
 
 allprojects {
-  group = "org.example"
+  group = "io.github.iwalker"
 
   repositories {
     mavenCentral()

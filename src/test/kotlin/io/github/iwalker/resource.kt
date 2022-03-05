@@ -1,4 +1,4 @@
-package org.example
+package io.github.iwalker
 
 import arrow.continuations.generic.AtomicRef
 import arrow.continuations.generic.update
@@ -9,23 +9,23 @@ import arrow.core.invalidNel
 import arrow.core.traverseValidated
 import arrow.core.valid
 import arrow.fx.coroutines.ExitCase
-import io.kotest.core.TestConfiguration
 import arrow.fx.coroutines.Platform
 import arrow.fx.coroutines.Resource
 import arrow.fx.coroutines.bracketCase
 import io.kotest.assertions.fail
 import io.kotest.common.runBlocking
+import io.kotest.core.TestConfiguration
 import io.kotest.core.listeners.TestListener
 import io.kotest.core.spec.Spec
 
-fun <A> TestConfiguration.resource(resource: Resource<A>): A =
-  runBlocking { TestResource(resource).also(this::listener).value() }
+fun <A> TestConfiguration.resource(resource: Resource<A>): A = runBlocking {
+  TestResource(resource).also(this::listener).value()
+}
 
 private class TestResource<A>(private val resource: Resource<A>) : TestListener {
   private val finalizers: AtomicRef<List<suspend (ExitCase) -> Unit>> = AtomicRef(emptyList())
 
-  suspend fun value(): A =
-    resource.bind()
+  suspend fun value(): A = resource.bind()
 
   // Remove once resource computation block is available
   private suspend fun <B> Resource<B>.bind(): B =

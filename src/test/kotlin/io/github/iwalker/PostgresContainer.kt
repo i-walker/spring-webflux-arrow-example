@@ -1,6 +1,6 @@
-package org.example
+package io.github.iwalker
 
-import org.example.config.Config
+import io.github.iwalker.config.Config
 import org.testcontainers.containers.PostgreSQLContainer
 
 class PostgresContainer private constructor() :
