@@ -1,4 +1,4 @@
-# Spring Arrow Example
+# Spring Webflux Arrow Example
 
 A microservice example with Spring Webflux, Arrow.
 
