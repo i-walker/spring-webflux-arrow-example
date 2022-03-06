@@ -122,9 +122,7 @@ allprojects {
     implementation(libs.coroutines.core)
     implementation(libs.kotlin.stdlibCommon)
 
-    testImplementation(libs.kotest.frameworkEngine)
-    testImplementation(libs.kotest.runnerJUnit5)
-    testImplementation(libs.kotest.arrow)
+    testImplementation(libs.bundles.kotest.setup)
   }
 }
 

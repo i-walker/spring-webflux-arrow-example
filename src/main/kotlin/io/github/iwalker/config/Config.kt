@@ -1,5 +1,7 @@
 package io.github.iwalker.config
 
+import arrow.fx.coroutines.Schedule
+
 public data class Config(val dataSource: DataSource, val http: Http) {
   public data class Http(val host: String, val port: Int)
 
@@ -7,7 +9,8 @@ public data class Config(val dataSource: DataSource, val http: Http) {
     val url: String,
     val username: String,
     val password: String,
-    val driver: String = "org.postgresql.Driver"
+    val driver: String = "org.postgresql.Driver",
+    val connectionPolicy: Schedule<Throwable, Int> = Schedule.recurs(5)
   )
 }
 

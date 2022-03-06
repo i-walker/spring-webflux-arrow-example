@@ -19,6 +19,7 @@ postgresql = "42.3.3"
 kjwt = "0.5.1"
 flyway = "8.5.1"
 springBoot = "2.6.4"
+exposed = "0.37.3"
 kotlinBinaryCompatibilityValidator = "0.8.0"
 
 [libraries]
@@ -55,6 +56,11 @@ hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 kjwt-core = { module = "io.github.nefilim.kjwt:kjwt-core", version.ref = "kjwt" }
 
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+exposed-kotlinDateTime = { module = "org.jetbrains.exposed:exposed-kotlin-datetime", version.ref = "exposed" }
+
 [plugins]
 arrowGradleConfig-formatter = { id = "io.arrow-kt.arrow-gradle-config-formatter", version.ref = "arrowGradleConfig" }
 arrowGradleConfig-versioning = { id = "io.arrow-kt.arrow-gradle-config-versioning", version.ref = "arrowGradleConfig" }
@@ -69,3 +75,8 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
 kotlin-binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlinBinaryCompatibilityValidator" }
+
+[bundles]
+kotest-setup = ["kotest-assertionsCore", "kotest-frameworkEngine", "kotest-property", "kotest-runnerJUnit5", "kotest-arrow", "kotest-property-arrow"]
+spring-webflux-setup = ["netty-transport-native-kqueue", "", "reactor-kotlin-extensions", "spring-boot-starter-webflux", "spring-boot-starter-web", "coroutines-reactor", "coroutines-reactive", "coroutines-jdk8", "coroutines-core"]
+jetbrains-exposed = ["exposed-core", "exposed-dao", "exposed-jdbc", "exposed-kotlinDateTime"]
