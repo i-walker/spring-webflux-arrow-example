@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.6.20-RC"
-arrow = "1.0.3-alpha.20"
+arrow = "1.0.3-alpha.24"
 arrowGradleConfig = "0.10.0"
 coroutines = "1.6.0"
 dokka = "1.6.10"
