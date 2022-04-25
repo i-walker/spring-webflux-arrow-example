@@ -21,7 +21,7 @@ jobs:
 
       - name: Restore Gradle cache
         id: cache
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3.0.2
         with:
           path: |
             ~/.gradle/caches
@@ -41,7 +41,7 @@ jobs:
 
       - name: Upload Code Scanning code analysis report
         if: always()
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'build/reports/detekt/main.sarif'
 
