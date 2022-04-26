@@ -1,9 +1,9 @@
 [versions]
 kotlin = "1.6.21"
 arrow = "1.1.2"
-arrowGradleConfig = "0.10.0"
+arrowGradleConfig = "0.10.1"
 coroutines = "1.6.1"
-dokka = "1.6.20"
+dokka = "1.6.21"
 kover = "0.5.0"
 spring = "2.6.7"
 reactorKotlinExtensions = "1.1.6"
