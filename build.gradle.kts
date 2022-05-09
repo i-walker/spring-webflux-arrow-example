@@ -116,14 +116,6 @@ allprojects {
       jvmTarget = "1.8"
     }
   }
-
-  dependencies {
-    implementation(libs.arrow.fx)
-    implementation(libs.coroutines.core)
-    implementation(libs.kotlin.stdlibCommon)
-
-    testImplementation(libs.bundles.kotest.setup)
-  }
 }
 
 dependencies {
@@ -134,6 +126,11 @@ dependencies {
   implementation(libs.spring.boot.starter.webflux)
   implementation(libs.reactor.kotlin.extensions)
   implementation(libs.netty.transport.native.kqueue)
+  implementation(libs.arrow.fx)
+  implementation(libs.coroutines.core)
+  implementation(libs.kotlin.stdlibCommon)
 
+  testImplementation(libs.bundles.kotest.setup)
   testImplementation(libs.testcontainers.postgresql)
+  testImplementation(libs.testcontainers.testcontainers)
 }

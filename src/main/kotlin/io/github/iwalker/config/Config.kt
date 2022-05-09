@@ -6,11 +6,13 @@ public data class Config(val dataSource: DataSource, val http: Http) {
   public data class Http(val host: String, val port: Int)
 
   public data class DataSource(
+    val host: String = "localhost",
+    val port: Int = 5432,
     val url: String,
     val username: String,
     val password: String,
     val driver: String = "org.postgresql.Driver",
-    val connectionPolicy: Schedule<Throwable, Int> = Schedule.recurs(5)
+    val connectionPolicy: Schedule<Throwable, Int> = @Suppress("MagicNumber") Schedule.recurs(5)
   )
 }
 
@@ -29,5 +31,5 @@ public fun envDataSource(): Config.DataSource =
     url = System.getenv("POSTGRES_URL")
       ?: "jdbc:postgresql://localhost:5432/spring-arrow-example-database",
     username = System.getenv("POSTGRES_USERNAME") ?: "postgres",
-    password = System.getenv("POSTGRES_PASSWORD") ?: "postgres",
+    password = System.getenv("POSTGRES_PASSWORD") ?: "postgres"
   )

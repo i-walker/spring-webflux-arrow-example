@@ -17,17 +17,23 @@ public final class io/github/iwalker/config/Config {
 }
 
 public final class io/github/iwalker/config/Config$DataSource {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Larrow/fx/coroutines/Schedule;)V
+	public synthetic fun <init> (Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Larrow/fx/coroutines/Schedule;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
+	public final fun component2 ()I
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/github/iwalker/config/Config$DataSource;
-	public static synthetic fun copy$default (Lio/github/iwalker/config/Config$DataSource;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lio/github/iwalker/config/Config$DataSource;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Larrow/fx/coroutines/Schedule;
+	public final fun copy (Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Larrow/fx/coroutines/Schedule;)Lio/github/iwalker/config/Config$DataSource;
+	public static synthetic fun copy$default (Lio/github/iwalker/config/Config$DataSource;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Larrow/fx/coroutines/Schedule;ILjava/lang/Object;)Lio/github/iwalker/config/Config$DataSource;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getConnectionPolicy ()Larrow/fx/coroutines/Schedule;
 	public final fun getDriver ()Ljava/lang/String;
+	public final fun getHost ()Ljava/lang/String;
 	public final fun getPassword ()Ljava/lang/String;
+	public final fun getPort ()I
 	public final fun getUrl ()Ljava/lang/String;
 	public final fun getUsername ()Ljava/lang/String;
 	public fun hashCode ()I

@@ -51,6 +51,7 @@ kotest-runnerJUnit5 = { module = "io.kotest:kotest-runner-junit5", version.ref =
 kotest-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "kotestArrow" }
 kotest-property-arrow = { module = "io.kotest.extensions:kotest-property-arrow", version.ref = "kotestArrow" }
 
+testcontainers-testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
 testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
@@ -77,6 +78,6 @@ flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
 kotlin-binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlinBinaryCompatibilityValidator" }
 
 [bundles]
-kotest-setup = ["kotest-assertionsCore", "kotest-frameworkEngine", "kotest-property", "kotest-runnerJUnit5", "kotest-arrow", "kotest-property-arrow"]
-spring-webflux-setup = ["netty-transport-native-kqueue", "", "reactor-kotlin-extensions", "spring-boot-starter-webflux", "spring-boot-starter-web", "coroutines-reactor", "coroutines-reactive", "coroutines-jdk8", "coroutines-core"]
+kotest-setup = ["kotest-assertionsCore", "kotest-frameworkEngine", "kotest-property", "kotest-runnerJUnit5", "kotest-arrow"] # "kotest-property-arrow"
+spring-webflux-setup = ["netty-transport-native-kqueue", "reactor-kotlin-extensions", "spring-boot-starter-webflux", "spring-boot-starter-web", "coroutines-reactor", "coroutines-reactive", "coroutines-jdk8", "coroutines-core"]
 jetbrains-exposed = ["exposed-core", "exposed-dao", "exposed-jdbc", "exposed-kotlinDateTime"]

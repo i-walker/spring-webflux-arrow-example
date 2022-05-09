@@ -1,41 +1,41 @@
 package io.github.iwalker
 
-import arrow.continuations.generic.AtomicRef
-import arrow.continuations.generic.update
 import arrow.core.NonEmptyList
+import arrow.core.None
+import arrow.core.Option
+import arrow.core.Some
 import arrow.core.ValidatedNel
+import arrow.core.continuations.AtomicRef
+import arrow.core.continuations.update
 import arrow.core.identity
 import arrow.core.invalidNel
-import arrow.core.traverseValidated
+import arrow.core.traverse
 import arrow.core.valid
 import arrow.fx.coroutines.ExitCase
 import arrow.fx.coroutines.Platform
 import arrow.fx.coroutines.Resource
 import arrow.fx.coroutines.bracketCase
-import io.kotest.assertions.fail
-import io.kotest.common.runBlocking
+import arrow.fx.coroutines.continuations.ResourceScope
 import io.kotest.core.TestConfiguration
 import io.kotest.core.listeners.TestListener
 import io.kotest.core.spec.Spec
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
+import kotlinx.coroutines.runBlocking
 
-fun <A> TestConfiguration.resource(resource: Resource<A>): A = runBlocking {
-  TestResource(resource).also(this::listener).value()
-}
+fun <A> TestConfiguration.resource(resource: Resource<A>): ReadOnlyProperty<Any?, A> =
+  TestResource(resource).also(::listener)
 
-private class TestResource<A>(private val resource: Resource<A>) : TestListener {
+@Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
+private class TestResource<A>(private val resource: Resource<A>) :
+  TestListener, ResourceScope, ReadOnlyProperty<Any?, A> {
+  private val value: AtomicRef<Option<A>> = AtomicRef(None)
   private val finalizers: AtomicRef<List<suspend (ExitCase) -> Unit>> = AtomicRef(emptyList())
 
-  suspend fun value(): A = resource.bind()
-
-  // Remove once resource computation block is available
-  private suspend fun <B> Resource<B>.bind(): B =
+  @Suppress("DEPRECATION")
+  override suspend fun <A> Resource<A>.bind(): A =
     when (this) {
-      is Resource.Bind<*, *> -> {
-        val any = source.bind()
-
-        @Suppress("UNCHECKED_CAST") val ff = f as ((Any?) -> Resource<B>)
-        ff(any).bind()
-      }
+      is Resource.Dsl -> dsl.invoke(this@TestResource)
       is Resource.Allocate ->
         bracketCase(
           {
@@ -55,13 +55,46 @@ private class TestResource<A>(private val resource: Resource<A>) : TestListener 
             }
           }
         )
+      is Resource.Bind<*, *> -> {
+        val dsl: suspend ResourceScope.() -> A = {
+          val any = source.bind()
+          @Suppress("UNCHECKED_CAST") val ff = f as (Any?) -> Resource<A>
+          ff(any).bind()
+        }
+        dsl(this@TestResource)
+      }
       is Resource.Defer -> resource().bind()
-      else -> fail("shouldn't reach here")
     }
+
+  override fun getValue(thisRef: Any?, property: KProperty<*>): A =
+    value.modify {
+      when (it) {
+        None -> runBlocking { resource.bind() }.let { a -> Pair(Some(a), a) }
+        is Some -> Pair(it, it.value)
+      }
+    }
+
+  override suspend fun beforeSpec(spec: Spec) {
+    super.beforeSpec(spec)
+    value.modify {
+      when (it) {
+        None -> resource.bind().let { a -> Pair(Some(a), a) }
+        is Some -> Pair(it, it.value)
+      }
+    }
+  }
 
   override suspend fun afterSpec(spec: Spec) {
     super.afterSpec(spec)
     finalizers.get().cancelAll(ExitCase.Completed)
+  }
+}
+
+private inline fun <A, B> AtomicRef<A>.modify(function: (A) -> Pair<A, B>): B {
+  while (true) {
+    val cur = get()
+    val (upd, res) = function(cur)
+    if (compareAndSet(cur, upd)) return res
   }
 }
 
@@ -76,7 +109,7 @@ private suspend fun List<suspend (ExitCase) -> Unit>.cancelAll(
   exitCase: ExitCase,
   first: Throwable? = null
 ): Throwable? =
-  traverseValidated { f -> catchNel { f(exitCase) } }
+  traverse { f -> catchNel { f(exitCase) } }
     .fold(
       {
         if (first != null) Platform.composeErrors(NonEmptyList(first, it))
