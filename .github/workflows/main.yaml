@@ -21,7 +21,7 @@ jobs:
 
       - name: Restore Gradle cache
         id: cache
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v2.1.8
         with:
           path: |
             ~/.gradle/caches
@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew build check
 
       - name: Upload reports
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: 'reports'
           path: '**/build/reports/**'
